@@ -1,6 +1,6 @@
 import NavigationBar from "../users/components/navigation";
 import { useState, useEffect, useRef } from "react";
-import services from "./utils/services.json";
+import { serviceData } from "./utils/service_data.js"
 
 const pastservices = [
   {
@@ -22,21 +22,38 @@ const pastservices = [
 ];
 
 function Home() {
+  const [services, setServices] = useState([]);
   const [groupedServices, setGroupedServices] = useState({});
 
   useEffect(() => {
-    if (!services || !Array.isArray(services)) {
-      console.error("services is not an array or is missing");
-      return;
-    }
-    const grouped = services.reduce((acc, service) => {
-      const cat = service.category || "Other";
-      if (!acc[cat]) acc[cat] = [];
-      acc[cat].push(service);
-      return acc;
-    }, {});
-    setGroupedServices(grouped);
+  const fetchServiceData = async () => {
+      try {
+        const data = await serviceData();
+        if (data) {
+          const parsedData = typeof data === "string" ? JSON.parse(data) : data;
+          const cleanData = Array.isArray(parsedData) ? parsedData : [];
+
+          setServices(cleanData);
+
+          const grouped = cleanData.reduce((acc, service) => {
+            const cat = service.category || "Other";
+            if (!acc[cat]) acc[cat] = [];
+            acc[cat].push(service);
+            return acc;
+          }, {});
+
+          setGroupedServices(grouped);
+        }
+      } catch (err) {
+        console.error("Error fetching or processing service data:", err);
+        setServices([]);
+        setGroupedServices({});
+      }
+    };
+
+    fetchServiceData();
   }, []);
+
 
   const scrollContainers = useRef({});
 

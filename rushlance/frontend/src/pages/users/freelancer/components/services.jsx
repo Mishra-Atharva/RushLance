@@ -215,7 +215,7 @@ function FreelancerServices() {
                 <>
                   <div className="flex items-center gap-4 flex-1">
                     <img
-                      src={service.image}
+                      src={`https://placehold.co/64x64?text=${encodeURIComponent(service.title || "Service")}`}
                       alt="Service"
                       className="w-16 h-16 rounded object-cover"
                     />
