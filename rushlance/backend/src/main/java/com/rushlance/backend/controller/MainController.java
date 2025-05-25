@@ -42,4 +42,18 @@ public class MainController {
         Integer userID = (Integer) id.get("id");
         return this.userRepo.userIdDetails(userID);
     }
+
+    @PostMapping("/dashboard-freelancer")
+    public Map<String, Object> getFreelancerDetails(@RequestBody Map<String, Object> email)
+    {
+        Users user = getUserDetailsByEmail(email);
+        return this.userRepo.getFreelancerDashboardDetails(user.getId());
+    }
+
+    @PostMapping("/dashboard-freelancer-service")
+    public List<Map<String, Object>> getFreelancerServiceDetails(@RequestBody Map<String, Object> email)
+    {
+        Users user = getUserDetailsByEmail(email);
+        return this.userRepo.getFreelancerServiceDetails(user.getId());
+    }
 }

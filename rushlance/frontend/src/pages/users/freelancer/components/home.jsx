@@ -8,7 +8,10 @@ import {
   FaCog
 } from "react-icons/fa";
 
-export default function FreelancerHome({ profile = {}, setCurrentLink }) {
+import {useState, useEffect} from "react";
+import {dashboardDetails} from "../utils/dashboard.js";
+
+export default function FreelancerHome({ profile ={}, setCurrentLink }) {
   const {
     fullName       = "Unnamed",
     avatar         = "https://placehold.co/96x96?text=?",
@@ -16,13 +19,38 @@ export default function FreelancerHome({ profile = {}, setCurrentLink }) {
     avgRating      = "—"
   } = profile;
 
-  const stats = [
-    { icon: <FaBriefcase />,      label: "Jobs",      value: jobsCompleted },
-    { icon: <FaWallet />,         label: "Earnings",  value: "$12,400"    },
-    { icon: <FaStar />,           label: "Rating",    value: avgRating    },
-    { icon: <FaProjectDiagram />, label: "Active",    value: 2            }
-  ];
+  const [details, setDetails] = useState({});
 
+  
+  
+  useEffect(() => {
+    const fetchUserData = async () => {
+      try {
+        const data = await dashboardDetails();
+        if (data) {
+          try {
+            const parsedData = typeof data === 'string' ? JSON.parse(data) : data;
+            setDetails(parsedData);
+          } catch (parseError) {
+            console.error("Error parsing user data:", parseError);
+            setError("Failed to parse user data");
+          }
+        }
+      } catch (err) {
+        console.error("Error fetching user data:", err);
+      }
+    };
+    
+    fetchUserData();
+  }, []);
+  
+  const stats = [
+    { icon: <FaBriefcase />,      label: "Jobs",      value: details.jobs },
+    { icon: <FaWallet />,         label: "Earnings",  value: "$" + details.earnings    },
+    { icon: <FaStar />,           label: "Rating",    value: details.rating    },
+    { icon: <FaProjectDiagram />, label: "Active",    value: details.active            }
+  ];
+  
   return (
     <div className="max-w-5xl mx-auto p-6 bg-white rounded-2xl shadow">
       {/* header */}

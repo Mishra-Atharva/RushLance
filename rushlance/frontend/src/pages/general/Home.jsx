@@ -87,7 +87,7 @@ function Home() {
               ref={(el) => (scrollContainers.current[category] = el)}
               style={{
                 display: "flex",
-                gap: "20px",
+                gap: "120px",
                 overflowX: "auto",
                 paddingBottom: "10px",
                 scrollBehavior: "smooth",

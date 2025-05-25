@@ -1,22 +1,26 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { FaPlus, FaEdit, FaTrash } from "react-icons/fa";
+import { serviceData } from "../utils/service";
 
 function FreelancerServices() {
   // Example state for list of services
-  const [services, setServices] = useState([
-    {
-      id: 1,
-      title: "Web Design",
-      description: "Modern responsive websites tailored for your business.",
-      image: "https://placehold.co/64x64?text=Web"
-    },
-    {
-      id: 2,
-      title: "Logo Creation",
-      description: "Unique, memorable logos that define your brand.",
-      image: "https://placehold.co/64x64?text=Logo"
-    }
-  ]);
+  // const [services, setServices] = useState([
+  //   {
+  //     id: 1,
+  //     title: "Web Design",
+  //     description: "Modern responsive websites tailored for your business.",
+  //     image: "https://placehold.co/64x64?text=Web"
+  //   },
+  //   {
+  //     id: 2,
+  //     title: "Logo Creation",
+  //     description: "Unique, memorable logos that define your brand.",
+  //     image: "https://placehold.co/64x64?text=Logo"
+  //   }
+  // ]);
+
+  const [services, setServices] = useState([]);
+
   const [newService, setNewService] = useState({ title: "", description: "" });
   const [isAdding, setIsAdding] = useState(false);
   const [editId, setEditId] = useState(null);
@@ -77,6 +81,29 @@ function FreelancerServices() {
     setEditId(null);
     setEditService({ title: "", description: "" });
   };
+
+  useEffect(() => {
+    const fetchUserData = async () => {
+      try {
+        const data = await serviceData();
+        if (data) {
+          try {
+            const parsedData = typeof data === 'string' ? JSON.parse(data) : data;
+            setServices(parsedData);
+          } catch (parseError) {
+            console.error("Error parsing user data:", parseError);
+            setError("Failed to parse user data");
+          }
+        }
+      } catch (err) {
+        console.error("Error fetching user data:", err);
+      }
+    };
+
+    fetchUserData();
+  }, []);
+
+  console.log(services);
 
   return (
     <div className="max-w-3xl mx-auto p-6 bg-white rounded-xl shadow-lg">

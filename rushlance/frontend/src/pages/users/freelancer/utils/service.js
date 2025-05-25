@@ -1,11 +1,11 @@
 import { fetchData } from "../../../../utils/fetch.js";
 
-export async function profileData()
+export async function serviceData()
 {
     const token = localStorage.getItem("token");
     const email = localStorage.getItem("email");
 
-    const result = await fetchData("user", "POST", 
+    const result = await fetchData("dashboard-freelancer-service", "POST", 
         {
             "Content-Type": "application/json", 
             "Authorization": `Bearer ${token}` 
