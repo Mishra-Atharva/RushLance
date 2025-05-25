@@ -25,4 +25,7 @@ public interface UserRepo extends JpaRepository<Users, Integer>
 
     @Query(value = "SELECT * FROM SERVICES WHERE freelancer_id = :id", nativeQuery = true)
     List<Map<String, Object>> getFreelancerServiceDetails(Integer id);
+
+    @Query(value = "SELECT u.full_name AS receiver_name, m.content, m.is_read FROM messages m JOIN users u ON m.receiver_id = u.id WHERE m.sender_id = (SELECT id FROM users WHERE email = :email);", nativeQuery = true)
+    List<Map<String, Object>> getChat(@Param("email") String email);
 }

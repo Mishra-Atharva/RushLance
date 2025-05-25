@@ -54,7 +54,6 @@ function Home() {
     fetchServiceData();
   }, []);
 
-
   const scrollContainers = useRef({});
 
   // Scroll function

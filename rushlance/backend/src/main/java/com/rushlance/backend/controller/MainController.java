@@ -56,4 +56,11 @@ public class MainController {
         Users user = getUserDetailsByEmail(email);
         return this.userRepo.getFreelancerServiceDetails(user.getId());
     }
+
+    @PostMapping("/chat")
+    public List<Map<String, Object>> getChats(@RequestBody Map<String, Object> email)
+    {
+        String email_str = (String) email.get("email");
+        return this.userRepo.getChat(email_str);
+    }
 }

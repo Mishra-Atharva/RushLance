@@ -25,7 +25,6 @@ export default function DashboardClient() {
       <NavigationBar userType="client" />
       <SideBar   currentLink={{ link, setLink }} userType="client" />
       <Content   currentLink={{ link, setLink }} userType="client" />
-      <Footer />
     </div>
   );
 }
