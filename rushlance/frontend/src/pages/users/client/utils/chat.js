@@ -26,5 +26,3 @@ export async function chatData()
 //     FOREIGN KEY (receiver_id) REFERENCES users(id) ON DELETE CASCADE,
 //     FOREIGN KEY (booking_id) REFERENCES bookings(id) ON DELETE CASCADE
 // );
-
-export async function chatData(r_name, email, )
