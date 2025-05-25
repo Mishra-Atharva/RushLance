@@ -29,11 +29,11 @@ public class MainController {
     }
 
     @PostMapping("/user-email")
-    public String getUserType(@RequestBody Map<String, Object> email)
+    public String[] getUserType(@RequestBody Map<String, Object> email)
     {
         String email_str = (String) email.get("email");
         Users user = this.userRepo.findByEmail(email_str);
-        return user.getUser_type();
+        return new String[] { user.getUser_type(), user.getFull_name() };
     }
 
     @PostMapping("/userID")

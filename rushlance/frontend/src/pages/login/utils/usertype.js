@@ -11,7 +11,8 @@ export async function userType(email, token)
     // Success or Fail
     if (result)
     {
-        localStorage.setItem("type", result);
+        localStorage.setItem("type", JSON.parse(result)[0]);
+        localStorage.setItem("user_name", JSON.parse(result)[1]);
         return true;
     }
     else 

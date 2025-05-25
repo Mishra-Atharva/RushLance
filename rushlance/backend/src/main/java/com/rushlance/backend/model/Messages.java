@@ -23,10 +23,6 @@ public class Messages {
     @JsonProperty("receiver_id")
     private int receiver_id;
 
-    @Column(name = "booking_id")
-    @JsonProperty("booking_id")
-    private int booking_id;
-
     @Column(name = "content")
     @JsonProperty("content")
     private String content;
@@ -63,14 +59,6 @@ public class Messages {
         this.receiver_id = receiver_id;
     }
 
-    public int getBooking_id() {
-        return booking_id;
-    }
-
-    public void setBooking_id(int booking_id) {
-        this.booking_id = booking_id;
-    }
-
     public String getContent() {
         return content;
     }
@@ -101,7 +89,6 @@ public class Messages {
                 "id=" + id +
                 ", sender_id=" + sender_id +
                 ", receiver_id=" + receiver_id +
-                ", booking_id=" + booking_id +
                 ", content='" + content + '\'' +
                 ", sent_at=" + sent_at +
                 ", is_read=" + is_read +
