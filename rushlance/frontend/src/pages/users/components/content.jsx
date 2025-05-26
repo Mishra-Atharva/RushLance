@@ -20,6 +20,7 @@ import FreelancerServices  from "../freelancer/components/services.jsx";
 import FreelancerReviews   from "../freelancer/components/reviews.jsx";
 import FreelancerSettings  from "../freelancer/components/settings.jsx";
 import FreelancerHome      from "../freelancer/components/home.jsx";
+import FreelancerChat from "../freelancer/components/chat.jsx";
 
 /* ─── ADMIN widgets */
 import StatCard            from "../admin/components/statcard.jsx";
@@ -126,6 +127,7 @@ function Content({ currentLink, userType = "client" }) {
         {currentLink.link === "Settings" && (
           <FreelancerSettings profile={profile} setProfile={setProfile} />
         )}
+        {currentLink.link === "Chat" && <FreelancerChat />}
         {currentLink.link === "Notifications" && (
           <Notifications notifications={freelancerNotifications} />
         )}
@@ -139,11 +141,6 @@ function Content({ currentLink, userType = "client" }) {
       <div style={areaStyle} className="rounded-2xl m-2 p-6 grid gap-6 bg-white">
         {currentLink.link === "Dashboard" && (
           <div className="grid md:grid-cols-3 gap-6">
-            <StatCard label="Total Clients" value="17" />
-            <StatCard label="Total Freelancers" value="9" />
-            <StatCard label="Total Users" value="27" />
-            <StatCard label="New Signups (May)" value="12" />
-            <StatCard label="Reports Open" value="8" />
             <DemographicsPanel male={1629} female={1480} other={100} />
           </div>
         )}

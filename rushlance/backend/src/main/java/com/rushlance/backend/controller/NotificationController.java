@@ -27,9 +27,8 @@ public class NotificationController {
     }
 
     @PostMapping("/notificationID")
-    public List<Notifications> getNotificationById(@RequestBody Map<String, Object> id)
-    {
-        Integer userID = (Integer)id.get("id");
-        return this.notificationRepo.getByUserId(userID);
+    public List<Notifications> getNotificationById(@RequestBody Map<String, Object> data) {
+        String email = (String) data.get("email");
+        return this.notificationRepo.getNotifcations(email);
     }
 }

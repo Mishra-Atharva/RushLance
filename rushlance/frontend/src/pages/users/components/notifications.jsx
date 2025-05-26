@@ -1,18 +1,5 @@
-
-const notifications = [
-  {
-    id: 1,
-    message: "You have Client 1's request on Monday, May 26, 2025.",
-    date: "24/05/2025 02:30 PM",
-    type: "unread",
-  },
-  {
-    id: 2,
-    message: "You have successfully completed Client 1's request.",
-    date: "23/03/2025 03:15 PM",
-    type: "read"
-  }
-];
+import { useState, useEffect } from "react";
+import { getNotifications } from "./utils/get_notification";
 
 const getNotificationColor = (type) => {
   switch (type) {
@@ -23,15 +10,20 @@ const getNotificationColor = (type) => {
   }
 };
 
-function Notifications({ notifications = [] }) {
-  const getNotificationColor = (type) => {
-    switch (type) {
-      case "read":
-        return "#e6e6e6";
-      default:
-        return "#cfcfcf";
+function Notifications() {
+  const [notifications, setNotifications] = useState([]);
+
+  useEffect(() => {
+    async function fetchNotifications() {
+      const data = await getNotifications();
+      if (data) {
+        setNotifications(JSON.parse(data));
+        console.log(JSON.parse(data));
+      }
     }
-  };
+
+    fetchNotifications();
+  }, []);
 
   return (
     <div
@@ -44,20 +36,22 @@ function Notifications({ notifications = [] }) {
         flexDirection: "column",
         alignItems: "center",
       }}>
-      <h1 style={{
-        fontWeight: "bold",
-        fontSize: "26px",
-        marginBottom: "30px",
-        textAlign: "center",
-      }}>
+      <h1
+        style={{
+          fontWeight: "bold",
+          fontSize: "26px",
+          marginBottom: "30px",
+          textAlign: "center",
+        }}>
         Notifications
       </h1>
-      <div style={{
-        width: "100%",
-        display: "flex",
-        flexDirection: "column",
-        gap: "15px",
-      }}>
+      <div
+        style={{
+          width: "100%",
+          display: "flex",
+          flexDirection: "column",
+          gap: "15px",
+        }}>
         {notifications.map((note) => (
           <div
             key={note.id}

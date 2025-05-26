@@ -13,6 +13,6 @@ public interface NotificationRepo extends JpaRepository<Notifications, Integer>{
     @Query(value="SELECT * FROM notifications", nativeQuery=true)
     List<Notifications> getAll();
 
-    @Query(value = "SELECT * FROM notifications WHERE user_id = :id", nativeQuery = true)
-    List<Notifications> getByUserId(@Param("id") Integer id);
+    @Query(value = "SELECT * FROM notifications WHERE user_id = (SELECT id FROM USERS WHERE email = :email);", nativeQuery = true)
+    List<Notifications> getNotifcations(@Param("email") String email);
 }

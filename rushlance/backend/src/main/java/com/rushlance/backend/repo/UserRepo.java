@@ -28,4 +28,7 @@ public interface UserRepo extends JpaRepository<Users, Integer>
 
     @Query(value = "SELECT m.id, sender.full_name AS sender_name, receiver.full_name AS receiver_name, m.content, m.sent_at, m.is_read FROM messages m JOIN users sender ON m.sender_id = sender.id JOIN users receiver ON m.receiver_id = receiver.id WHERE sender.id = (SELECT id FROM users WHERE email = :email) OR receiver.id = (SELECT id FROM users WHERE email = :email) ORDER BY m.sent_at;\n", nativeQuery = true)
     List<Map<String, Object>> getChat(@Param("email") String email);
+
+    @Query(value = "SELECT COUNT(*) FILTER (WHERE user_type = 'client') AS total_clients, COUNT(*) FILTER (WHERE user_type = 'freelancer') AS total_freelancers, COUNT(*) AS total_users, COUNT(*) FILTER (WHERE gender = 'male') AS total_male_users, COUNT(*) FILTER (WHERE gender = 'female') AS total_female_users FROM users;", nativeQuery = true)
+    Map<String, Object> getAdminDetails();
 }

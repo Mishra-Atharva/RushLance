@@ -17,8 +17,11 @@ public class ReviewController {
     private ReviewRepo reviewRepo;
 
     @PostMapping("/reviews")
-    public Reviews addReview(@RequestBody Reviews reviews) {
-        return reviewRepo.save(reviews);
+    public Reviews addReview(@RequestBody Map<String, Object> data) {
+        Integer rating = (Integer) data.get("rating");
+        String comment = (String) data.get("comment");
+        Integer bookingId = (Integer) data.get("booking_id");
+        return this.reviewRepo.createReviews(rating, comment, bookingId);
     }
 
     @GetMapping("/reviews")
@@ -27,8 +30,8 @@ public class ReviewController {
     }
 
     @PostMapping("/reviewID")
-    public List<Reviews> getReviewsById(@RequestBody Map<String, Object> id) {
+    public List<Map<String, Object>> getReviewsById(@RequestBody Map<String, Object> id) {
         Integer reviewID = (Integer) id.get("id");
-        return this.reviewRepo.getReviewsById(reviewID);
+        return this.reviewRepo.getReviews(reviewID);
     }
 }

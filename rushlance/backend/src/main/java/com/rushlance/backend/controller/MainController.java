@@ -63,4 +63,10 @@ public class MainController {
         String email_str = (String) email.get("email");
         return this.userRepo.getChat(email_str);
     }
+
+    @GetMapping("/dashboard-admin")
+    public Map<String, Object> getAdminDetails()
+    {
+        return this.userRepo.getAdminDetails();
+    }
 }

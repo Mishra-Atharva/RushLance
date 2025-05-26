@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
-import { chatData, sendChat } from "../utils/chat";
-import { createTransaction } from "../utils/payment";
+import { chatData, sendChat } from "../../client/utils/chat";
 
 export default function ClientChat() {
   const [users, setUsers] = useState([]);
@@ -8,12 +7,12 @@ export default function ClientChat() {
   const [selectedUser, setSelectedUser] = useState(null);
   const [msg, setMsg] = useState("");
 
-  const myName = localStorage.getItem("user_name") || "";
-
   const [showPaymentModal, setShowPaymentModal] = useState(false);
   const [paymentMethod, setPaymentMethod] = useState("");
   const [cardDetails, setCardDetails] = useState({ number: "", expiry: "", cvc: "" });
   const [paypalEmail, setPaypalEmail] = useState("");
+
+  const myName = localStorage.getItem("user_name") || "";
 
   const sendMessage = async (e) => {
     e.preventDefault();
@@ -31,6 +30,20 @@ export default function ClientChat() {
     }
 
     setMsg("");
+  };
+
+  const handlePay = () => setShowPaymentModal(true);
+
+  const handlePaymentSubmit = (e) => {
+    e.preventDefault();
+    // Replace this with real API/payment gateway logic
+    setShowPaymentModal(false);
+    alert("Payment submitted!");
+  };
+
+  const handleRequestPayment = () => {
+    // Replace this with real backend trigger or message
+    alert("Payment request sent to client!");
   };
 
   useEffect(() => {
@@ -52,7 +65,6 @@ export default function ClientChat() {
           if (!otherUserName) return;
 
           const isMe = sender_name === myName;
-
           if (!grouped[otherUserName]) grouped[otherUserName] = [];
           grouped[otherUserName].push({ me: isMe, text: content, is_read });
         });
@@ -61,6 +73,7 @@ export default function ClientChat() {
 
         const userList = Object.keys(grouped).filter((u) => u !== myName);
         setUsers(userList);
+
         setSelectedUser((prev) =>
           prev && userList.includes(prev) ? prev : userList[0] || null
         );
@@ -74,25 +87,9 @@ export default function ClientChat() {
     return () => clearInterval(intervalId);
   }, [myName]);
 
-  const handlePay = () => setShowPaymentModal(true);
-
-  const handlePaymentSubmit = async (e) => {
-    e.preventDefault();
-    if (!selectedUser) return;
-    console.log(myName, selectedUser);
-    try {
-      await createTransaction(myName, selectedUser);
-      alert("Payment submitted!");
-    } catch (error) {
-      console.error("Failed to create transaction:", error);
-      alert("Payment failed. Please try again.");
-    }
-
-    setShowPaymentModal(false);
-  };
-
   return (
     <div className="flex h-full bg-gray-100 rounded-2xl overflow-hidden shadow">
+      {/* LEFT: User List */}
       <aside className="w-64 bg-white border-r border-gray-200 p-4 overflow-y-auto">
         <h2 className="text-lg font-semibold mb-4">Contacts</h2>
         {users.length === 0 && <p className="text-gray-500 text-sm">No contacts found</p>}
@@ -111,17 +108,26 @@ export default function ClientChat() {
         ))}
       </aside>
 
+      {/* RIGHT: Chat Area */}
       <main className="flex-1 flex flex-col h-full bg-white">
         <div className="p-4 border-b border-gray-200 flex justify-between items-center">
           <h2 className="text-xl font-semibold">
             Chat with {selectedUser || "No user selected"}
           </h2>
-          <button
-            className="bg-blue-600 text-white px-4 py-2 rounded"
-            onClick={handlePay}
-          >
-            Pay
-          </button>
+          <div className="flex gap-2">
+            {/* <button
+              className="bg-blue-600 text-white px-3 py-1 rounded text-sm"
+              onClick={handlePay}
+            >
+              Pay
+            </button> */}
+            <button
+              className="bg-yellow-600 text-white px-3 py-1 rounded text-sm"
+              onClick={handleRequestPayment}
+            >
+              Request Payment
+            </button>
+          </div>
         </div>
 
         <div className="flex-1 overflow-y-auto p-4 space-y-4">
@@ -155,6 +161,7 @@ export default function ClientChat() {
         </form>
       </main>
 
+      {/* Payment Modal */}
       {showPaymentModal && (
         <div className="fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center z-50">
           <form
@@ -166,7 +173,6 @@ export default function ClientChat() {
               value={paymentMethod}
               onChange={(e) => setPaymentMethod(e.target.value)}
               required
-              className="border border-gray-300 p-2 rounded"
             >
               <option value="">Select method</option>
               <option value="card">Credit/Debit Card</option>
@@ -183,7 +189,6 @@ export default function ClientChat() {
                     setCardDetails({ ...cardDetails, number: e.target.value })
                   }
                   required
-                  className="border border-gray-300 p-2 rounded"
                 />
                 <input
                   type="text"
@@ -193,7 +198,6 @@ export default function ClientChat() {
                     setCardDetails({ ...cardDetails, expiry: e.target.value })
                   }
                   required
-                  className="border border-gray-300 p-2 rounded"
                 />
                 <input
                   type="text"
@@ -203,7 +207,6 @@ export default function ClientChat() {
                     setCardDetails({ ...cardDetails, cvc: e.target.value })
                   }
                   required
-                  className="border border-gray-300 p-2 rounded"
                 />
               </>
             )}
@@ -215,7 +218,6 @@ export default function ClientChat() {
                 value={paypalEmail}
                 onChange={(e) => setPaypalEmail(e.target.value)}
                 required
-                className="border border-gray-300 p-2 rounded"
               />
             )}
 

@@ -37,7 +37,7 @@ CREATE TABLE bookings (
 CREATE TABLE reviews (
     id SERIAL PRIMARY KEY,
     service_id INTEGER NOT NULL,
-    booking_id INTEGER NOT NULL UNIQUE,
+    booking_id INTEGER NOT NULL, -- removed UNIQUE
     freelancer_id INTEGER NOT NULL,
     reviewer_id INTEGER NOT NULL,
     rating INTEGER NOT NULL CHECK (rating BETWEEN 1 AND 5),

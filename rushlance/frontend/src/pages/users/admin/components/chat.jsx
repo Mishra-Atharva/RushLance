@@ -1,26 +1,6 @@
 //  src/pages/users/admin/components/chat.jsx
 import { useState } from "react";
 
-const initialRooms = [
-  {
-    id: 1,
-    name: "Client - John Smith",
-    unread: 2,
-    messages: [
-      { id: 1, from: "client", text: "Hi, I need an update.", time: "09:10" },
-      { id: 2, from: "admin",  text: "Sure, let me check.",  time: "09:12" }
-    ]
-  },
-  {
-    id: 2,
-    name: "Freelancer - Jane Doe",
-    unread: 0,
-    messages: [
-      { id: 1, from: "freelancer", text: "Project deployed 👍", time: "08:47" }
-    ]
-  }
-];
-
 export default function Chat() {
   const [rooms, setRooms] = useState(initialRooms);
   const [roomIdx, setRoomIdx] = useState(0);

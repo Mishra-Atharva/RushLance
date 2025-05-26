@@ -8,13 +8,21 @@ export async function login(email, password)
     // Connecting to the API
     const result = await fetchData("login", "POST", { "Content-Type": "application/json" }, { email: email, password_hash: password });
     
-    // Success or Fail
     if (result)
     {
         localStorage.setItem("email", email);
         localStorage.setItem("token", result);
-        userType(email, result);
-        return true;
+
+        // Wait for userType to finish
+        const type = await userType(email, result);
+        if (type) {
+            // Double set for safety
+            localStorage.setItem("userType", type);
+            return true;
+        } else {
+            console.log("[!] Could not determine user type after login.");
+            return false;
+        }
     }
     else 
     {
@@ -22,3 +30,4 @@ export async function login(email, password)
         return false;
     }
 }
+
