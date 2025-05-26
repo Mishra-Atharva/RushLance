@@ -26,4 +26,9 @@ public interface BookingRepo extends JpaRepository<Bookings, Long>
 
     @Query(value = "SELECT COUNT(*) AS total_bookings, COUNT(CASE WHEN b.status = 'pending' THEN 1 END) AS pending_bookings, COUNT(CASE WHEN b.status = 'completed' THEN 1 END) AS completed_bookings FROM BOOKINGS b JOIN USERS u ON b.client_id = u.id WHERE u.email = :email;", nativeQuery = true)
     Map<String, Object> getCountBookings(@Param("email") String email);
+
+    @Query(value = "INSERT INTO messages (sender_id, receiver_id, content) SELECT b.client_id AS sender_id, b.freelancer_id AS receiver_id, CONCAT('You have a new booking from ', u.full_name, ' for ', s.title, ' on ', TO_CHAR(b.booked_at, 'FMDay, FMMonth DD, YYYY'), '. Please check your bookings for details.') AS content FROM bookings b JOIN users u ON b.client_id = u.id JOIN services s ON b.service_id = s.id WHERE b.id = :id;", nativeQuery = true)
+    int sendMessage(@Param("id") Integer id);
+
+
 }

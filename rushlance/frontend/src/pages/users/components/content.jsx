@@ -4,6 +4,7 @@ import { useState } from "react";
 
 /* ─── shared */
 import History from "../components/history.jsx";
+import Notifications from "../components/notifications.jsx";
 
 /* ─── CLIENT components */
 import ClientHome      from "../client/components/home.jsx";
@@ -16,7 +17,6 @@ import AccountDetails  from "../client/components/account_details.jsx";
 /* ─── FREELANCER components */
 import FreelancerProfile   from "../freelancer/components/profile.jsx";
 import FreelancerServices  from "../freelancer/components/services.jsx";
-import FreelancerProjects  from "../freelancer/components/projects.jsx";
 import FreelancerReviews   from "../freelancer/components/reviews.jsx";
 import FreelancerSettings  from "../freelancer/components/settings.jsx";
 import FreelancerHome      from "../freelancer/components/home.jsx";
@@ -25,13 +25,56 @@ import FreelancerHome      from "../freelancer/components/home.jsx";
 import StatCard            from "../admin/components/statcard.jsx";
 import DemographicsPanel   from "../admin/components/demographicspanel.jsx";
 import ReportsList         from "../admin/components/reportslist.jsx";
-import JobListings         from "../admin/components/joblistings.jsx";
 import Chat                from "../admin/components/chat.jsx";
-import Bookings            from "../admin/components/bookings.jsx";
-import AdminSettings       from "../admin/components/settings.jsx";
 import Clients             from "../admin/components/clients.jsx";
 import Freelancers         from "../admin/components/freelancers.jsx";
 import AdminHelp           from "../admin/components/help.jsx";
+
+// Notification data for each user type
+const clientNotifications = [
+  {
+    id: 1,
+    message: "Your payment was successful.",
+    date: "25/05/2025 10:30 AM",
+    type: "unread",
+  },
+  {
+    id: 2,
+    message: "You have a new message from Freelancer John.",
+    date: "24/05/2025 04:15 PM",
+    type: "read",
+  }
+];
+
+const freelancerNotifications = [
+  {
+    id: 1,
+    message: "You have a new job request from Client Alice.",
+    date: "25/05/2025 09:00 AM",
+    type: "unread",
+  },
+  {
+    id: 2,
+    message: "Client Bob left you a 5-star review!",
+    date: "23/05/2025 02:45 PM",
+    type: "read",
+  }
+];
+
+const adminNotifications = [
+  {
+    id: 1,
+    message: "System maintenance scheduled for May 30.",
+    date: "24/05/2025 08:00 PM",
+    type: "unread",
+  },
+  {
+    id: 2,
+    message: "New user registration: Client Carol.",
+    date: "23/05/2025 11:00 AM",
+    type: "read",
+  }
+];
 
 function Content({ currentLink, userType = "client" }) {
   const areaStyle = { gridArea: "content" };
@@ -47,6 +90,9 @@ function Content({ currentLink, userType = "client" }) {
         {currentLink.link === "Chat"      && <ClientChat />}
         {currentLink.link === "Settings"  && <ClientSettings />}
         {currentLink.link === "Help"      && <ClientHelp />}
+        {currentLink.link === "Notifications" && (
+          <Notifications notifications={clientNotifications} />
+        )}
       </div>
     );
   }
@@ -76,10 +122,12 @@ function Content({ currentLink, userType = "client" }) {
           <FreelancerProfile profile={profile} setProfile={setProfile} />
         )}
         {currentLink.link === "Services" && <FreelancerServices />}
-        {currentLink.link === "Projects" && <FreelancerProjects />}
         {currentLink.link === "Reviews"  && <FreelancerReviews />}
         {currentLink.link === "Settings" && (
           <FreelancerSettings profile={profile} setProfile={setProfile} />
+        )}
+        {currentLink.link === "Notifications" && (
+          <Notifications notifications={freelancerNotifications} />
         )}
       </div>
     );
@@ -91,26 +139,23 @@ function Content({ currentLink, userType = "client" }) {
       <div style={areaStyle} className="rounded-2xl m-2 p-6 grid gap-6 bg-white">
         {currentLink.link === "Dashboard" && (
           <div className="grid md:grid-cols-3 gap-6">
-            <StatCard label="Total Users" value="345 ,678" />
-            <StatCard label="Performance" value="97 %" />
-            <StatCard label="Status"      value="All systems ✔︎" />
-            <StatCard label="Error Rate"  value="0.2 %" />
-            <StatCard label="Time"        value="UTC +0" />
-            <StatCard label="MAJER"       value="—" />
-            <StatCard label="All"         value="+YN" />
-            <StatCard label="Month"       value="—" />
-            <DemographicsPanel male={55} female={45} other={0} />
+            <StatCard label="Total Clients" value="17" />
+            <StatCard label="Total Freelancers" value="9" />
+            <StatCard label="Total Users" value="27" />
+            <StatCard label="New Signups (May)" value="12" />
+            <StatCard label="Reports Open" value="8" />
+            <DemographicsPanel male={1629} female={1480} other={100} />
           </div>
         )}
 
         {currentLink.link === "Reports"      && <ReportsList />}
-        {currentLink.link === "JobListings"  && <JobListings />}
         {currentLink.link === "Chat"         && <Chat />}
-        {currentLink.link === "Bookings"     && <Bookings />}
-        {currentLink.link === "Settings"     && <AdminSettings />}
         {currentLink.link === "Clients"      && <Clients />}
         {currentLink.link === "Freelancers"  && <Freelancers />}
         {currentLink.link === "Help"         && <AdminHelp />}
+        {currentLink.link === "Notifications" && (
+          <Notifications notifications={adminNotifications} />
+        )}
       </div>
     );
   }

@@ -1,37 +1,26 @@
 import NavigationBar from "../users/components/navigation";
 import { useState, useEffect, useRef } from "react";
-import { serviceData } from "./utils/service_data.js"
-
-const pastservices = [
-  {
-    id: 101,
-    title: "Old Website Design",
-    description: "Completed website design",
-    price: 400,
-    category: "Web Development",
-    available: false,
-  },
-  {
-    id: 102,
-    title: "Old Logo Design",
-    description: "Completed logo",
-    price: 150,
-    category: "Graphic Design",
-    available: false,
-  },
-];
+import { serviceData } from "./utils/service_data.js";
+import { Link } from "react-router-dom";
 
 function Home() {
   const [services, setServices] = useState([]);
   const [groupedServices, setGroupedServices] = useState({});
+  const scrollContainers = useRef({});
 
   useEffect(() => {
-  const fetchServiceData = async () => {
+    const fetchServiceData = async () => {
       try {
         const data = await serviceData();
         if (data) {
           const parsedData = typeof data === "string" ? JSON.parse(data) : data;
           const cleanData = Array.isArray(parsedData) ? parsedData : [];
+          
+          console.log("Fetched services:", cleanData.map(s => ({
+            id: s.id,
+            title: s.title,
+            freelancer_id: s.freelancer_id 
+          })));
 
           setServices(cleanData);
 
@@ -54,9 +43,6 @@ function Home() {
     fetchServiceData();
   }, []);
 
-  const scrollContainers = useRef({});
-
-  // Scroll function
   const startScrolling = (category, direction) => {
     const container = scrollContainers.current[category];
     if (!container) return;
@@ -103,36 +89,43 @@ function Home() {
               ref={(el) => (scrollContainers.current[category] = el)}
               style={{
                 display: "flex",
-                gap: "120px",
+                gap: "20px",
                 overflowX: "auto",
                 paddingBottom: "10px",
                 scrollBehavior: "smooth",
               }}
             >
               {groupedServices[category].map((service) => (
-                <div
-                  key={service.id}
-                  style={{
-                    flex: "0 0 auto",
-                    width: "250px",
-                    background: "white",
-                    borderRadius: "12px",
-                    padding: "20px",
-                    boxShadow: "0 4px 8px rgba(0,0,0,0.1)",
-                    textAlign: "center",
+                <Link
+                  to={{
+                    pathname: `/service/${service.id}`,
+                    state: { freelancerId: service.freelancer_id }
                   }}
+                  key={service.id}
+                  style={{ textDecoration: "none", color: "inherit", minWidth: "250px" }}
                 >
-                  <img
-                    src="https://placehold.co/300x200?text=Service"
-                    alt={service.title}
-                    style={{ width: "100%", borderRadius: "8px", marginBottom: "15px" }}
-                  />
-                  <h3 style={{ fontSize: "18px", fontWeight: "600", marginBottom: "8px" }}>
-                    {service.title}
-                  </h3>
-                  <p style={{ color: "#555", marginBottom: "5px" }}>{service.description}</p>
-                  <p style={{ color: "#000", fontWeight: "bold" }}>From ${service.price}</p>
-                </div>
+                  <div
+                    style={{
+                      background: "white",
+                      borderRadius: "12px",
+                      padding: "20px",
+                      boxShadow: "0 4px 8px rgba(0,0,0,0.1)",
+                      textAlign: "center",
+                      height: "100%",
+                    }}
+                  >
+                    <img
+                      src="https://placehold.co/300x200?text=Service"
+                      alt={service.title}
+                      style={{ width: "100%", borderRadius: "8px", marginBottom: "15px" }}
+                    />
+                    <h3 style={{ fontSize: "18px", fontWeight: "600", marginBottom: "8px" }}>
+                      {service.title}
+                    </h3>
+                    <p style={{ color: "#555", marginBottom: "5px" }}>{service.description}</p>
+                    <p style={{ color: "#000", fontWeight: "bold" }}>From ${service.price}</p>
+                  </div>
+                </Link>
               ))}
             </div>
 
@@ -142,10 +135,10 @@ function Home() {
               onMouseLeave={() => stopScrolling(category)}
               style={{
                 position: "absolute",
-                top: 0,
+                top: "40px",
                 left: 0,
                 width: "40px",
-                height: "100%",
+                height: "calc(100% - 40px)",
                 cursor: "w-resize",
                 zIndex: 10,
               }}
@@ -157,41 +150,16 @@ function Home() {
               onMouseLeave={() => stopScrolling(category)}
               style={{
                 position: "absolute",
-                top: 0,
+                top: "40px",
                 right: 0,
                 width: "40px",
-                height: "100%",
+                height: "calc(100% - 40px)",
                 cursor: "e-resize",
                 zIndex: 10,
               }}
             ></div>
           </section>
         ))}
-
-        <h1 style={{ fontSize: "32px", marginBottom: "30px", textAlign: "center" }}>
-          Past Services
-        </h1>
-        <div style={{ display: "flex", flexWrap: "wrap", gap: "20px" }}>
-          {pastservices.map((service) => (
-            <div
-              key={service.id}
-              style={{
-                flex: "0 0 250px",
-                background: "#e0e0e0",
-                borderRadius: "12px",
-                padding: "20px",
-                boxShadow: "0 2px 5px rgba(0,0,0,0.1)",
-                textAlign: "center",
-              }}
-            >
-              <h3 style={{ fontSize: "18px", fontWeight: "600", marginBottom: "8px" }}>
-                {service.title}
-              </h3>
-              <p style={{ color: "#555", marginBottom: "5px" }}>{service.description}</p>
-              <p style={{ color: "#000", fontWeight: "bold" }}>Paid ${service.price}</p>
-            </div>
-          ))}
-        </div>
       </main>
     </div>
   );

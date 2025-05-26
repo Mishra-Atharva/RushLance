@@ -4,11 +4,10 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import org.hibernate.annotations.CreationTimestamp;
 
-import java.time.LocalDate;
 import java.time.OffsetDateTime;
 
 @Entity
-public class Service
+public class Services
 {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

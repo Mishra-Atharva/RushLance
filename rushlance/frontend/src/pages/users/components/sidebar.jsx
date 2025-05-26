@@ -17,13 +17,11 @@ const iconClient      = icon(28);
 const ICONS_ADMIN = {
   Dashboard:   iconAdmin("DB"),
   Reports:     iconAdmin("RP"),
-  JobListings: iconAdmin("JL"),
   Chat:        iconAdmin("CH"),
-  Bookings:    iconAdmin("BK"),
-  Settings:    iconAdmin("ST"),
   Clients:     iconAdmin("CL"),
   Freelancers: iconAdmin("FR"),
   Help:        iconAdmin("?"),
+  Notifications: iconAdmin("NT"),
   SignOut:     iconAdmin("S")
 };
 
@@ -31,10 +29,10 @@ const ICONS_FREELANCER = {
   Dashboard:  iconFreelancer("DB"),
   Profile:    iconFreelancer("PR"),
   Services:   iconFreelancer("SV"),
-  Projects:   iconFreelancer("PJ"),
   Reviews:    iconFreelancer("RV"),
   Settings:   iconFreelancer("ST"),
   Help:       iconFreelancer("?"),
+  Notifications: iconFreelancer("NT"),
   SignOut:    iconFreelancer("S")
 };
 
@@ -46,6 +44,7 @@ const ICONS_CLIENT = {
   Settings:   iconClient("ST"),
   Chat:       iconClient("CH"),
   Help:       iconClient("?"),
+  Notifications: iconClient("NT"),
   SignOut:    iconClient("S")
 };
 
@@ -59,16 +58,16 @@ function SideBar({ currentLink, userType = "client" }) {
   /* link sets */
   const clientLinks = [
     "Dashboard", "Account", "Payment", "Bookings",
-    "Settings","Chat", "Help", "SignOut"
+    "Settings","Chat", "Help", "Notifications", "SignOut"
   ];
   const freelancerLinks = [
-    "Dashboard", "Profile", "Services", "Projects",
-    "Reviews", "Settings", "Help", "SignOut"
+    "Dashboard", "Profile", "Services",
+    "Reviews", "Settings", "Help", "Notifications", "SignOut"
   ];
   const adminLinks = [
-    "Dashboard", "Reports", "JobListings", "Chat",
-    "Bookings", "Settings", "Clients", "Freelancers",
-    "Help", "SignOut"
+    "Dashboard", "Reports", "Chat",
+    "Clients", "Freelancers",
+    "Help", "Notifications", "SignOut"
   ];
 
   /* helpers */

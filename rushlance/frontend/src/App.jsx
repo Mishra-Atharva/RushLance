@@ -8,6 +8,7 @@ import DashboardClient from './pages/users/client/dashboard.jsx';
 import PublicRoute from './PublicRoute';
 import PrivateRoute from "./PrivateRoute";
 import Review from "./pages/general/review.jsx";
+import ServiceDetails from "./pages/general/services.jsx";
 
 export default function App() {
 
@@ -53,6 +54,9 @@ export default function App() {
                 <DashboardAdmin/>
               </PrivateRoute>
             } />
+
+            <Route path="/service/:id" element={
+              <ServiceDetails />} />
 
           </Routes>
       </div>

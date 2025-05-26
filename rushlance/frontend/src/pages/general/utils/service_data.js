@@ -15,3 +15,29 @@ export async function serviceData()
         return false;
     }
 }
+
+export async function bookService(c_id, s_id, f_id, date)
+{
+    const token = localStorage.getItem("token");
+
+    const result = await fetchData("bookings", "POST", 
+        {
+            "Content-Type": "application/json", 
+            "Authorization": `Bearer ${token}`
+
+        }, 
+        {
+            client_id: c_id,
+            service_id: s_id,
+            freelancer_id: f_id,
+            status: "pending",
+            booked_at: date
+        }
+    );
+
+    if (result)
+    {
+        return true;
+    }
+    return false;
+}

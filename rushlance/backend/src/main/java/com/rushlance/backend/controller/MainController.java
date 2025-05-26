@@ -33,7 +33,7 @@ public class MainController {
     {
         String email_str = (String) email.get("email");
         Users user = this.userRepo.findByEmail(email_str);
-        return new String[] { user.getUser_type(), user.getFull_name() };
+        return new String[] { user.getUser_type(), user.getFull_name(), user.getId().toString() };
     }
 
     @PostMapping("/userID")

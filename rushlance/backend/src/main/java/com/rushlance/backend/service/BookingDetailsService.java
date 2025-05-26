@@ -13,6 +13,8 @@ public class BookingDetailsService
 
     public Bookings register(Bookings booking)
     {
-        return this.bookingRepo.save(booking);
+        Bookings book = this.bookingRepo.save(booking);
+        this.bookingRepo.sendMessage(book.getId());
+        return book;
     }
 }

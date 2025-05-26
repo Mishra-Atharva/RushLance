@@ -13,6 +13,8 @@ export async function userType(email, token)
     {
         localStorage.setItem("type", JSON.parse(result)[0]);
         localStorage.setItem("user_name", JSON.parse(result)[1]);
+        localStorage.setItem("id", JSON.parse(result)[2]);
+
         return true;
     }
     else 
