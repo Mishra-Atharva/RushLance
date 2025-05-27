@@ -34,8 +34,8 @@ export default function ClientHome({ profile = {} }) {
 
   return (
     <section className="rounded-2xl border border-gray-200 p-6 bg-white">
-      <h2 className="text-xl font-semibold mb-4">Welcome back, {fullName}!</h2>
-      <p className="text-gray-600 mb-6">{email}</p>
+      <h2 className="text-xl font-semibold mb-4">Welcome back, {localStorage.getItem("user_name")}!</h2>
+      <p className="text-gray-600 mb-6">{localStorage.getItem("email")}</p>
 
       <div className="grid sm:grid-cols-3 gap-4">
         <Card label="Total Bookings" value={count.total_bookings} />

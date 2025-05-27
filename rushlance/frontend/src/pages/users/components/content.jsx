@@ -23,7 +23,6 @@ import FreelancerHome      from "../freelancer/components/home.jsx";
 import FreelancerChat from "../freelancer/components/chat.jsx";
 
 /* ─── ADMIN widgets */
-import StatCard            from "../admin/components/statcard.jsx";
 import DemographicsPanel   from "../admin/components/demographicspanel.jsx";
 import ReportsList         from "../admin/components/reportslist.jsx";
 import Chat                from "../admin/components/chat.jsx";
